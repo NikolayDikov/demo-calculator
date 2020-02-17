@@ -111,14 +111,24 @@ $(document).ready(function(){
         
         if ($(this).hasClass("Operator")) {
             if (expression1=="") {
-                expression1=$('#innerBox').html();
+                if ($('#innerBox').html()=="") {
+                    expression1="0";
+                }else{
+                    expression1=$('#innerBox').html();
+                }
             }
-            if (operator1!="") {
+            if (operator1!="" && expression2=="") {
                 $('#innerBox').html($('#innerBox').html().slice(0,-1));
+                operator1=$(this).html();
+                $('#innerBox').html($('#innerBox').html()+$(this).html());
+            }else if (operator1=="") {
+                operator1=$(this).html();
+                $('#innerBox').html($('#innerBox').html()+$(this).html());
+            }else{
+
             }
-            operator1=$(this).html();
-            $('#innerBox').html($('#innerBox').html()+$(this).html());
-            temp=2
+            
+            temp=2;
             
             console.log(operator1);
         }else{
@@ -128,6 +138,10 @@ $(document).ready(function(){
                 }
                 if (expression1.indexOf(".")!=-1 && $(this).html() == ".") {
                 }else{
+                    if (expression1=="0" && $(this).html() != ".") {
+                        expression1="";
+                        $('#innerBox').html($('#innerBox').html().slice(0,-1));
+                    }
                     expression1+=$(this).html();
                     $('#innerBox').html($('#innerBox').html()+$(this).html());
                 }
@@ -135,6 +149,10 @@ $(document).ready(function(){
             }else{
                 if (expression2.indexOf(".")!=-1 && $(this).html() == ".") {
                 }else{
+                    if (expression2=="0" && $(this).html() != ".") {
+                        expression2="";
+                        $('#innerBox').html($('#innerBox').html().slice(0,-1));
+                    }
                     expression2+=$(this).html();
                     $('#innerBox').html($('#innerBox').html()+$(this).html());
                 }
@@ -151,6 +169,20 @@ $(document).ready(function(){
         temp=1;
     })
     $('.ClearLast').click(function(){
+        if (expression2.length>0) {
+            expression2=expression2.slice(0,-1);
+            console.log(expression2);
+        }else if (operator1.length>0) {
+            operator1="";
+            temp==1;
+            console.log(operator1);
+        }else{
+            if (expression1=="" && $('#innerBox').html()!="") {
+                expression1=$('#innerBox').html();
+            }
+            expression1=expression1.slice(0,-1);
+            console.log(expression1);
+        }
         $('#innerBox').html($('#innerBox').html().slice(0,-1));
     })
     $('.EndIt').click(function(){
